@@ -14,10 +14,3 @@ class Updater():
 
 if __name__ == "__main__":
 	git_test = Updater("https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git")
-
-# MODS={
-# 	"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git" : (
-# 		"WireTracer",
-# 		"CustomWirePlacer"
-# 	)
-# }

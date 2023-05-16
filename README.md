@@ -9,6 +9,17 @@ import re
 import git
 ```
 
+## DATASET EXEMPLE
+
+```py
+MODS={
+	"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git" : (
+		"WireTracer",
+		"CustomWirePlacer"
+	)
+}
+```
+
 ## TODO
 
 1. finish updater
