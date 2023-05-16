@@ -9,10 +9,9 @@ import re
 import git
 ```
 
-## TMP
-MODS={
-	"git@github.com:Ecconia/Ecconia-LogicWorld-Mods.git" : (
-		"WireTracer",
-		"CustomWirePlacer"
-	)
-}
+## TODO
+
+1. finish updater
+	1. add multiple git according to `MODS` variable
+	1. disect `MODS.url.mode_name`
+	1. install according to `MODS.url.mode_name` disection
