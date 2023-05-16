@@ -1,2 +1,5 @@
 # python3 cache thing
 *.pyc
+
+# .cache folder
+.cache/
