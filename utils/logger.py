@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+PADDING_STR = " - "
+
 class Logger():
 	def __init__(self):
 		self.R = "\x1b[31m"
@@ -14,23 +16,24 @@ class Logger():
 		self.E_head = f"[{self.R}-{self.RST}]"
 
 	@staticmethod
-	def format(head, string):
-		return (f" {head} \x1b[7G{string}")
+	def format(head, string, level):
+		tmp_padding = PADDING_STR * level
+		return (f"{tmp_padding}{head} {string}")
 
-	def success(self, string):
-		print(self.format(self.S_head, string))
+	def success(self, string, level=0):
+		print(self.format(self.S_head, string, level))
 
-	def info(self, string):
-		print(self.format(self.I_head, string))
+	def info(self, string, level=0):
+		print(self.format(self.I_head, string, level))
 
-	def warn(self, string):
-		print(self.format(self.W_head, string))
+	def warn(self, string, level=0):
+		print(self.format(self.W_head, string, level))
 
-	def	error(self, string):
-		print(self.format(self.E_head, string))
+	def	error(self, string, level=0):
+		print(self.format(self.E_head, string, level))
 
-	def commit(self, branch, local, remote):
+	def commit(self, branch, local, remote, level=0):
 		string = f"Branch {self.B}{branch}{self.RST} | "
 		string += f"Local {{{self.G}{local[:7]}{self.RST}}} | "
 		string += f"remote {{{self.R}{remote[:7]}{self.RST}}}"
-		self.info(string)
+		self.info(string, level)

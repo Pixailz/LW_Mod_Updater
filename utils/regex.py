@@ -14,3 +14,12 @@ class Regex():
 			r"^https://github\.com/(.*?)/.*$",
 			**self.options
 		)
+		self.git_repo_name = re.compile(
+			r"^https://github\.com/.*?/(.*)$",
+			**self.options
+		)
+		self.succ_id = re.compile(
+			r"^ID:(.*)$",
+			**self.options
+		)
+
