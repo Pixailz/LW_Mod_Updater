@@ -10,6 +10,10 @@ from config import GIT_CACH_DIR
 if not os.path.isdir(GIT_CACH_DIR):
 	os.mkdir(GIT_CACH_DIR)
 
+GIT_TOKEN = None
+if os.path.isfile("token_git.py"):
+	from token_git import GIT_TOKEN
+
 class ModzGit():
 	def __init__(self, url, branch="master"):
 		self.url = url
@@ -29,11 +33,15 @@ class ModzGit():
 	def get_last_remote(self):
 		url = "https://api.github.com/repos/"
 		url += f"{self.dev_name}/{self.repo_name}/commits/{self.branch}"
-		headers = {"Accept": "application/vnd.github.VERSION.sha"}
+		headers = {}
+		headers["Accept"] = "application/vnd.github.VERSION.sha"
+		if GIT_TOKEN != None:
+			headers["Authorization"] = f"Bearer {GIT_TOKEN}"
 		req = requests.get(url=url, headers=headers)
 		if req.status_code != 200:
 			req_status = f"{log.R}{req.status_code}{log.RST}"
 			log.error(f"Error fetching latest commit [{req_status}]")
+			log.error(f"-> [{url}]")
 			return (None)
 		return (req.text)
 
