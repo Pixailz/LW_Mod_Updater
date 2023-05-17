@@ -18,20 +18,21 @@ class Logger():
 
 	@staticmethod
 	def format(head, string, level):
-		tmp_padding = LOG_PAD_STR * level
-		return (f"{tmp_padding}{head} {string}")
+		if LOG_DEB_LVL == -1 or level <= LOG_DEB_LVL:
+			tmp_padding = LOG_PAD_STR * level
+			print(f"{tmp_padding}{head} {string}")
 
 	def success(self, string, level=0):
-		print(self.format(self.S_head, string, level))
+		self.format(self.S_head, string, level)
 
 	def info(self, string, level=0):
-		print(self.format(self.I_head, string, level))
+		self.format(self.I_head, string, level)
 
 	def warn(self, string, level=0):
-		print(self.format(self.W_head, string, level))
+		self.format(self.W_head, string, level)
 
 	def	error(self, string, level=0):
-		print(self.format(self.E_head, string, level))
+		self.format(self.E_head, string, level)
 
 	def commit(self, branch, local, remote, level=0):
 		string = f"Branch {self.B}{branch}{self.RST} | "
