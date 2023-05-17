@@ -1,5 +1,6 @@
 # main config
-MODZ_FOLDER = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
+# MODZ_FOLDER = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
+MODZ_FOLDER = "Z:\Jeux\SteamLibrary\steamapps\common\Logic World\GameData"
 MODZ = {
 	"Ecconia's Main repo": {	# repo_name
 		"repo": (
@@ -7,10 +8,15 @@ MODZ = {
 			"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git"
 		),
 		"modz": [
-			"EccsWindowHelper",
-			"AssemblyLoader",
-			"WireTracer",
-			"CustomWirePlacer",
+			"HarmonyForLogicWorld",			# mandatory for gui thing
+			"EccsWindowHelper",				#
+			"AssemblyLoader",				#
+
+			"WireTracer",					# extra
+			"CustomWirePlacer",				#
+			"DisableCollision",				#
+			"EcconiaCPUServerComponents",	# extra ++
+			"EcconiasChaosClientMod",		#
 		]
 	},
 	"GHXX's Main repo": {
@@ -36,4 +42,4 @@ LOG_PAD_STR = "   "
 ### 1 some info
 ### 2 finded manifest.succ, local | remote commit id from cache
 ### 3 succ info
-LOG_DEB_LVL = -1
+LOG_DEB_LVL = 2
