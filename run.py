@@ -5,60 +5,87 @@
 from pprint import pprint
 ## END DEBUG ONLY
 import os
+import shutil
 ## UTILS
-from utils.git import Git
+from utils.git import ModGit
 from utils.logger import Logger
+from utils.regex import Regex
 
 log = Logger()
 
+MODZ_FOLDER = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
 MODZ = {
-	"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git" : [
+	"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git":
+	[
+		"EccsWindowHelper",
+		"AssemblyLoader",
+		"FixClientBugs",
 		"WireTracer",
 		"CustomWirePlacer"
 	],
-	"https://github.com/GHXX/LogicWorld-TcpBridge" : [
-		"Tcp Brdige"
+	"https://github.com/GHXX/LogicWorld-TcpBridge":
+	[
+		"Tcp Bridge"
 	]
 }
 
-class Updater():
+class Modz():
 	def __init__(self):
-		self.git = [ Git(link) for link in MODZ ]
-		for git in self.git:
-			git.get_last()
+		self.git = [ ModGit(link) for link in MODZ ]
+
+		self.re = Regex()
 
 	def install(self):
 		for git in self.git:
 			for mod_id in MODZ[git.url]:
-				log.success(mod_id)
-				log.info(git.dir)
-				print(self.search_for_succ_file(git.dir, mod_id))
+				log.info(f"Searching for {mod_id}")
+				src_mod_folder = self.find_mod_folder(git.dir, mod_id)
+				if src_mod_folder == None:
+					continue
+				dst_mod_folder = f"{MODZ_FOLDER}/{git.dev_name}-{mod_id}"
+				if os.path.isdir(dst_mod_folder):
+					log.warn(f"dst folder found, removing it", 1)
+					shutil.rmtree(dst_mod_folder)
+				shutil.copytree(src_mod_folder, dst_mod_folder)
 
-	def find_succ_folder(self, base_folder, mod_id):
+	def find_mod_folder(self, base_folder, mod_id):
 		self.already_viewed = []
-		log.info(base_folder)
 		while True:
 			found = self.search_for_succ_file(base_folder, mod_id)
 			if found == None:
-				log.error("not found")
+				log.error("Not found", 1)
+				return (None)
+			with open(found, "r") as tmp_file:
+				tmp_str = tmp_file.read()
+			try:
+				tmp_str = self.re.succ_name.findall(tmp_str)[0]
+			except IndexError:
+				self.already_viewed.append(found)
+				continue
+			if tmp_str == mod_id:
+				log.success(f"Founded in {found}", 1)
+				return (os.path.dirname(found))
 			else:
-				with open(found, "r") tmo_file:
-
-			break
+				self.already_viewed.append(found)
 
 	def search_for_succ_file(self, base_folder, mod_id):
-		log.warn("searching in : " + base_folder)
 		for root, dirs, files in os.walk(base_folder):
 			for file in files:
-				log.info("file found : " + file)
-				if file.endswith(".succ"):
-					# if file not in self.already_viewed:
-					return(os.path.join(root, file))
+				if file == "manifest.succ":
+					tmp_path = os.path.join(root, file)
+					if tmp_path in self.already_viewed:
+						continue
+					return(tmp_path)
 			for dir in dirs:
-				return (self.search_for_succ_file(os.path.join(base_folder, dir), mod_id))
+				if dir == ".git":
+					continue
+				tmp_file = self.search_for_succ_file(os.path.join(base_folder, dir), mod_id)
+				if tmp_file == None:
+					continue
+				return (tmp_file)
 
 if __name__ == "__main__":
-	test = Updater()
-	# test.install()
-	print(test.find_succ_folder(".cache/Ecconia", "WireTracer"))
-	print(test.find_succ_folder(".cache/GHXX", "Tcp Bridge"))
+	test = Modz()
+	test.install()
+	# print(test.find_mod_folder(".cache/Ecconia", "WireTracer"))
+	# print(test.find_mod_folder(".cache/GHXX", "ghxx.tcpbridge"))

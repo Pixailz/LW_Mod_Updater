@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-PADDING_STR = " - "
+PADDING_STR = "   "
 
 class Logger():
 	def __init__(self):

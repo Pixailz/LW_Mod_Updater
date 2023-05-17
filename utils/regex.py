@@ -19,7 +19,15 @@ class Regex():
 			**self.options
 		)
 		self.succ_id = re.compile(
-			r"^ID:(.*)$",
+			r"^ID: (.*)$",
+			**self.options
+		)
+		self.succ_name = re.compile(
+			r"^Name: (.*)$",
+			**self.options
+		)
+		self.succ_version = re.compile(
+			r"^Version: (.*)$",
 			**self.options
 		)
 
