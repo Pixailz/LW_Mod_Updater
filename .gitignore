@@ -3,3 +3,6 @@
 
 # .cache folder
 .cache/
+
+# token_git.py
+token_git.py
