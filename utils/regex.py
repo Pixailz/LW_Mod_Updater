@@ -26,8 +26,15 @@ class Regex():
 			r"^Name: (.*)$",
 			**self.options
 		)
+		self.succ_author = re.compile(
+			r"^Author: (.*)$",
+			**self.options
+		)
 		self.succ_version = re.compile(
 			r"^Version: (.*)$",
 			**self.options
 		)
-
+		self.succ_priority = re.compile(
+			r"^Priority: (.*)$",
+			**self.options
+		)

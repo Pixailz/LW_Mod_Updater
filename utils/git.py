@@ -14,22 +14,22 @@ CACHE_DIR=".cache"
 if not os.path.isdir(CACHE_DIR):
 	os.mkdir(CACHE_DIR)
 
-class ModGit():
-	def __init__(self, url):
+class ModzGit():
+	def __init__(self, url, branch="master"):
 		self.re = Regex()
 		self.url = url
+		self.branch = branch
 		self.dev_name = self.re.git_user.findall(self.url)[0]
 		self.repo_name = self.re.git_repo_name.findall(self.url)[0]
 		self.repo_name = self.repo_name.replace(".git", '')
-		self.dir = CACHE_DIR + '/' + self.dev_name
-		if not os.path.isdir(self.dir):
+		self.cache_dir = CACHE_DIR + '/' + self.dev_name
+		if not os.path.isdir(self.cache_dir):
 			log.warn("Repo (" + url + ") not found localy, clonning")
-			self.clone()
+			self.clone(branch)
 		else:
 			log.info(f"Repo ({self.repo_name}) found localy")
-			self.repo = git.Repo(self.dir)
-		self.branch = self.repo.active_branch.name
-		self.get_last()
+			self.repo = git.Repo(self.cache_dir)
+			self.get_last()
 
 	def get_last_remote(self):
 		url = "https://api.github.com/repos/"
@@ -55,5 +55,5 @@ class ModGit():
 			log.success("Repo up-to-date", 1)
 		log.commit(self.branch, last_local, last_remote, 2)
 
-	def clone(self):
-		self.repo = git.Repo.clone_from(self.url, self.dir)
+	def clone(self, branch):
+		self.repo = git.Repo.clone_from(self.url, self.cache_dir, branch=branch)

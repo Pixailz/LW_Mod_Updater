@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+
+# HEADER
+## BEGIN DEBUG ONLY
+from pprint import pprint
+## END DEBUG ONLY
+import os
+import shutil
+## UTILS
+from utils.git import ModzGit
+from utils.logger import Logger
+from utils.regex import Regex
+from utils.succ import Succ
+
+log = Logger()
+
+class Modz():
+	def __init__(self, modz_folder, **modz):
+		self.re = Regex()
+		self.init_data_struct(modz_folder, modz)
+
+	def init_data_struct(self, modz_folder, modz):
+		self.repo = { key: {} for key in modz }
+		for repo_name in self.repo:
+			branch = modz[repo_name]["repo"][0]
+			url = modz[repo_name]["repo"][1]
+			modz_git = self.repo[repo_name]["ModzGit"] = ModzGit(url, branch)
+			self.repo[repo_name]["Modz"] = {}
+			for mod_id in modz[repo_name]["modz"]:
+				mods = self.repo[repo_name]["Modz"][mod_id] = {}
+				mods["Succ"] = Succ(modz_git.cache_dir, mod_id)
+				if mods["Succ"].path_manifest == None:
+					continue
+				mods["dir_dst"] = f"{modz_folder}/{modz_git.dev_name}_{mod_id}"
+				mods["dir_src"] = os.path.dirname(mods["Succ"].path_manifest)
+
+	def install(self):
+		for repo_name in self.repo:
+			tmp_repo = self.repo[repo_name]
+			for mod_id in tmp_repo["Modz"]:
+				tmp_modz = tmp_repo["Modz"][mod_id]
+				log.info(f"Installing {mod_id}")
+				if os.path.isdir(tmp_modz["dir_dst"]):
+					log.warn(f"Destination folder already founded, removing it", 1)
+					shutil.rmtree(tmp_modz["dir_dst"])
+				shutil.copytree(tmp_modz["dir_src"], tmp_modz["dir_dst"])
+				log.success(f"Installed {mod_id}", 1)
+
+if __name__ == "__main__":
+	modz_folder = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
+	modz = {
+		"Ecconia's Main repo": {
+			"repo": (
+				"master",
+				"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git"
+			),
+			"modz": [
+				"EccsWindowHelper",
+				"AssemblyLoader",
+				"WireTracer",
+				"CustomWirePlacer",
+			]
+		},
+		"GHXX's Main repo": {
+			"repo": (
+				"master",
+				"https://github.com/GHXX/LogicWorld-TcpBridge"
+			),
+			"modz": [
+				"Tcp Bridge"
+			]
+		},
+	}
+	test = Modz(modz_folder, **modz)
+	test.install()
