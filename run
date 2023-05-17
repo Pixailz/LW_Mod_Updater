@@ -31,9 +31,11 @@ class Modz():
 				mods = self.repo[repo_name]["Modz"][mod_id] = {}
 				mods["Succ"] = Succ(modz_git.cache_dir, mod_id)
 				if mods["Succ"].path_manifest == None:
-					continue
-				mods["dir_dst"] = f"{modz_folder}/{modz_git.dev_name}_{mod_id}"
-				mods["dir_src"] = os.path.dirname(mods["Succ"].path_manifest)
+					mods["dir_dst"] = None
+					mods["dir_src"] = None
+				else:
+					mods["dir_dst"] = f"{modz_folder}/{modz_git.dev_name}_{mod_id}"
+					mods["dir_src"] = os.path.dirname(mods["Succ"].path_manifest)
 
 	def install(self):
 		for repo_name in self.repo:
@@ -41,7 +43,10 @@ class Modz():
 			for mod_id in tmp_repo["Modz"]:
 				tmp_modz = tmp_repo["Modz"][mod_id]
 				log.info(f"Installing {mod_id}")
-				if os.path.isdir(tmp_modz["dir_dst"]):
+				if tmp_modz["dir_src"] == None:
+					log.error(f"Mod not found, skiping", 1)
+					continue
+				elif os.path.isdir(tmp_modz["dir_dst"]):
 					log.warn(f"Destination folder already founded, removing it", 1)
 					shutil.rmtree(tmp_modz["dir_dst"])
 				shutil.copytree(tmp_modz["dir_src"], tmp_modz["dir_dst"])
