@@ -27,11 +27,11 @@ class Succ():
 		self.man_version = self.get_infos(regex.succ_version, readed_str)
 		self.man_priority = self.get_infos(regex.succ_priority, readed_str)
 
-		log.info(self.man_id, 2)
-		log.info(self.man_name, 2)
-		log.info(self.man_author, 2)
-		log.info(self.man_version, 2)
-		log.info(self.man_priority, 2)
+		log.info(self.man_id, 3)
+		log.info(self.man_name, 3)
+		log.info(self.man_author, 3)
+		log.info(self.man_version, 3)
+		log.info(self.man_priority, 3)
 
 	def find_mod_folder(self, base_folder):
 		self.already_viewed = []
@@ -56,7 +56,7 @@ class Succ():
 			if founded == self.mod_target:
 				head = f"[{log.G}{self.mod_target}{log.RST}]"
 				tail = f"{{{log.Y}{found}{log.RST}}}"
-				log.success(f"{head} -> {tail}", 1)
+				log.success(f"{head} -> {tail}", 2)
 				return (found)
 			else:
 				self.already_viewed.append(found)
