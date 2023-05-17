@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-PADDING_STR = "   "
+from config import LOG_DEB_LVL
+from config import LOG_PAD_STR
 
 class Logger():
-	def __init__(self):
+	def __init__(self, debug_level=LOG_DEB_LVL):
 		self.R = "\x1b[31m"
 		self.G = "\x1b[32m"
 		self.Y = "\x1b[33m"
@@ -17,7 +18,7 @@ class Logger():
 
 	@staticmethod
 	def format(head, string, level):
-		tmp_padding = PADDING_STR * level
+		tmp_padding = LOG_PAD_STR * level
 		return (f"{tmp_padding}{head} {string}")
 
 	def success(self, string, level=0):
@@ -37,3 +38,5 @@ class Logger():
 		string += f"Local {{{self.G}{local[:7]}{self.RST}}} | "
 		string += f"remote {{{self.R}{remote[:7]}{self.RST}}}"
 		self.info(string, level)
+
+log = Logger()

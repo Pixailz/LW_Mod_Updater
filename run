@@ -8,15 +8,12 @@ import os
 import shutil
 ## UTILS
 from utils.git import ModzGit
-from utils.logger import Logger
-from utils.regex import Regex
 from utils.succ import Succ
-
-log = Logger()
+from utils.logger import log
+from utils.regex import regex
 
 class Modz():
 	def __init__(self, modz_folder, **modz):
-		self.re = Regex()
 		self.init_data_struct(modz_folder, modz)
 
 	def init_data_struct(self, modz_folder, modz):
@@ -69,7 +66,7 @@ if __name__ == "__main__":
 			"modz": [
 				"Tcp Bridge"
 			]
-		},
+		}
 	}
 	test = Modz(modz_folder, **modz)
 	test.install()

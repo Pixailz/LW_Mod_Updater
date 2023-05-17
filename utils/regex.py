@@ -38,3 +38,5 @@ class Regex():
 			r"^Priority: (.*)$",
 			**self.options
 		)
+
+regex = Regex()

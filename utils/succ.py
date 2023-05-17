@@ -2,14 +2,11 @@
 
 import os
 
-from utils.regex import Regex
-from utils.logger import Logger
-
-log = Logger()
+from utils.regex import regex
+from utils.logger import log
 
 class Succ():
 	def __init__(self, base_folder, mod_target):
-		self.re = Regex()
 		self.mod_target = mod_target
 		self.path_manifest = self.find_mod_folder(base_folder)
 		if self.path_manifest != None:
@@ -24,11 +21,11 @@ class Succ():
 	def get_succ_infos(self):
 		with open(self.path_manifest, "r") as tmp_file:
 			readed_str = tmp_file.read()
-		self.man_id = self.get_infos(self.re.succ_id, readed_str)
-		self.man_name = self.get_infos(self.re.succ_name, readed_str)
-		self.man_author = self.get_infos(self.re.succ_author, readed_str)
-		self.man_version = self.get_infos(self.re.succ_version, readed_str)
-		self.man_priority = self.get_infos(self.re.succ_priority, readed_str)
+		self.man_id = self.get_infos(regex.succ_id, readed_str)
+		self.man_name = self.get_infos(regex.succ_name, readed_str)
+		self.man_author = self.get_infos(regex.succ_author, readed_str)
+		self.man_version = self.get_infos(regex.succ_version, readed_str)
+		self.man_priority = self.get_infos(regex.succ_priority, readed_str)
 
 		log.info(self.man_id, 2)
 		log.info(self.man_name, 2)
@@ -47,12 +44,12 @@ class Succ():
 			with open(found, "r") as tmp_file:
 				readed = tmp_file.read()
 			try:
-				founded = self.re.succ_name.findall(readed)[0]
+				founded = regex.succ_name.findall(readed)[0]
 			except IndexError:
 				pass
 			if founded != self.mod_target:
 				try:
-					founded = self.re.succ_id.findall(readed)[0]
+					founded = regex.succ_id.findall(readed)[0]
 				except IndexError:
 					self.already_viewed.append(found)
 					continue

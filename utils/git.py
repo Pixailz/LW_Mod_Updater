@@ -3,26 +3,21 @@
 import os
 import git
 import requests
-from utils.regex import Regex
-from utils.logger import Logger
+from utils.regex import regex
+from utils.logger import log
+from config import GIT_CACH_DIR
 
-log = Logger()
-
-## CONFIG
-CACHE_DIR=".cache"
-
-if not os.path.isdir(CACHE_DIR):
-	os.mkdir(CACHE_DIR)
+if not os.path.isdir(GIT_CACH_DIR):
+	os.mkdir(GIT_CACH_DIR)
 
 class ModzGit():
 	def __init__(self, url, branch="master"):
-		self.re = Regex()
 		self.url = url
 		self.branch = branch
-		self.dev_name = self.re.git_user.findall(self.url)[0]
-		self.repo_name = self.re.git_repo_name.findall(self.url)[0]
+		self.dev_name = regex.git_user.findall(self.url)[0]
+		self.repo_name = regex.git_repo_name.findall(self.url)[0]
 		self.repo_name = self.repo_name.replace(".git", '')
-		self.cache_dir = CACHE_DIR + '/' + self.dev_name
+		self.cache_dir = GIT_CACH_DIR + '/' + self.dev_name
 		if not os.path.isdir(self.cache_dir):
 			log.warn("Repo (" + url + ") not found localy, clonning")
 			self.clone(branch)
