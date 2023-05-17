@@ -2,11 +2,14 @@
 
 # HEADER
 ## BEGIN DEBUG ONLY
-from pprint import pprint
+# from pprint import pprint
 ## END DEBUG ONLY
 import os
 import shutil
 ## UTILS
+from config import MODZ_FOLDER
+from config import MODZ
+
 from utils.git import ModzGit
 from utils.succ import Succ
 from utils.logger import log
@@ -23,6 +26,7 @@ class Modz():
 			url = modz[repo_name]["repo"][1]
 			modz_git = self.repo[repo_name]["ModzGit"] = ModzGit(url, branch)
 			self.repo[repo_name]["Modz"] = {}
+			log.info(f"Searching manifest.succ file for mods in {modz_git.cache_dir}", 1)
 			for mod_id in modz[repo_name]["modz"]:
 				mods = self.repo[repo_name]["Modz"][mod_id] = {}
 				mods["Succ"] = Succ(modz_git.cache_dir, mod_id)
@@ -44,29 +48,5 @@ class Modz():
 				log.success(f"Installed {mod_id}", 1)
 
 if __name__ == "__main__":
-	modz_folder = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
-	modz = {
-		"Ecconia's Main repo": {
-			"repo": (
-				"master",
-				"https://github.com/Ecconia/Ecconia-LogicWorld-Mods.git"
-			),
-			"modz": [
-				"EccsWindowHelper",
-				"AssemblyLoader",
-				"WireTracer",
-				"CustomWirePlacer",
-			]
-		},
-		"GHXX's Main repo": {
-			"repo": (
-				"master",
-				"https://github.com/GHXX/LogicWorld-TcpBridge"
-			),
-			"modz": [
-				"Tcp Bridge"
-			]
-		}
-	}
-	test = Modz(modz_folder, **modz)
+	test = Modz(MODZ_FOLDER, **MODZ)
 	test.install()
