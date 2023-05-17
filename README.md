@@ -6,7 +6,7 @@ Update mod from a repo
 - The `Modz` class in the [updatz](./updatz) file, take two parameters
    1. `modz_folder`: the path where to install `modz`
    2. `modz`: a mod list:
-- The `modz` dict is formated as follow
+- The `modz` dict is formated as the default [config.py](./config.py) file
   - a `repo_name`, must be uniq, it's contain:
     - a repo tuple with:
       1. the branch, if not provided, defaulting to `master`
