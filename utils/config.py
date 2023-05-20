@@ -1,6 +1,12 @@
 # main config
-# MODZ_FOLDER = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
-MODZ_FOLDER = "Z:\Jeux\SteamLibrary\steamapps\common\Logic World\GameData"
+
+import os
+
+if os.name == "posix":
+	MODZ_FOLDER = "/home/pix/.local/share/Steam/steamapps/common/Logic World/GameData"
+elif os.name == "nt":
+	MODZ_FOLDER = "Z:\Jeux\SteamLibrary\steamapps\common\Logic World\GameData"
+
 MODZ = {
 	"Ecconia's Main repo": {	# repo_name
 		"repo": (

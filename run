@@ -7,8 +7,8 @@
 import os
 import shutil
 ## UTILS
-from config import MODZ_FOLDER
-from config import MODZ
+from utils.config import MODZ_FOLDER
+from utils.config import MODZ
 
 from utils.git import ModzGit
 from utils.succ import Succ

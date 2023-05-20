@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from config import LOG_DEB_LVL
-from config import LOG_PAD_STR
+from utils.config import LOG_DEB_LVL
+from utils.config import LOG_PAD_STR
 
 class Logger():
 	def __init__(self, debug_level=LOG_DEB_LVL):

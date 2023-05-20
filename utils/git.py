@@ -5,7 +5,7 @@ import git
 import requests
 from utils.regex import regex
 from utils.logger import log
-from config import GIT_CACH_DIR
+from utils.config import GIT_CACH_DIR
 
 if not os.path.isdir(GIT_CACH_DIR):
 	os.mkdir(GIT_CACH_DIR)
