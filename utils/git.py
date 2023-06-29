@@ -51,6 +51,23 @@ class ModzGit():
 			return (None)
 		return (req.text)
 
+	@staticmethod
+	def	confirm_reset():
+		good = False
+		while not good:
+			reponse = input("git failed to update local repo, do you wan't to reset it ? (y/n)")
+			if len(respone) != 1:
+				log.error("Wrong args")
+				continue
+			reponse = reponse.lower()
+			if reponse != 'y' and reponse != 'n':
+				log.error("accepted args, Y or N (case don't matter)")
+				continue
+			if reponse == 'y':
+				return True
+			else:
+				return False
+
 	def	get_last(self):
 		log.info("Checking for update.", 1)
 		last_remote = str(self.get_last_remote())
@@ -59,7 +76,15 @@ class ModzGit():
 		last_local = str(self.repo.head.commit)
 		if last_remote != last_local:
 			log.warn("Not up-to-date, updating", 1)
-			self.repo.remotes.origin.pull(self.branch)
+			try:
+				self.repo.remotes.origin.pull(self.branch)
+			except GitCommandError:
+				choice = self.confirm_reset()
+				if choice:
+					self.repo.git.reset('--hard')
+					self.repo.remotes.origin.pull(self.branch)
+				else:
+					log.error(f"updating {self.repo_name}, git failed to pull")
 		else:
 			log.success("Repo up-to-date", 1)
 		log.commit(self.branch, last_local, last_remote, 2)
