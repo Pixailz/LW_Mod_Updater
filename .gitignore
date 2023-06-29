@@ -1,8 +1,9 @@
 # python3 cache thing
+__pycache__
 *.pyc
 
 # .cache folder
 .cache/
 
 # token_git.py
-token_git.py
+token_git*
