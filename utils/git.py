@@ -15,7 +15,7 @@ if os.path.isfile("token_git.py"):
 	from token_git import GIT_TOKEN
 
 class ModzGit():
-	def __init__(self, url, branch="master"):
+	def	__init__(self, url, branch="master"):
 		self.url = url
 		self.branch = branch
 		self.dev_name = regex.git_user.findall(self.url)[0]
@@ -30,7 +30,7 @@ class ModzGit():
 			self.repo = git.Repo(self.cache_dir)
 			self.get_last()
 
-	def get_last_remote(self):
+	def	get_last_remote(self):
 		url = "https://api.github.com/repos/"
 		url += f"{self.dev_name}/{self.repo_name}/commits/{self.branch}"
 		headers = {}
@@ -45,7 +45,7 @@ class ModzGit():
 			return (None)
 		return (req.text)
 
-	def get_last(self):
+	def	get_last(self):
 		log.info("Checking for update.", 1)
 		last_remote = str(self.get_last_remote())
 		if last_remote == None:
@@ -58,5 +58,5 @@ class ModzGit():
 			log.success("Repo up-to-date", 1)
 		log.commit(self.branch, last_local, last_remote, 2)
 
-	def clone(self, branch):
+	def	clone(self, branch):
 		self.repo = git.Repo.clone_from(self.url, self.cache_dir, branch=branch)

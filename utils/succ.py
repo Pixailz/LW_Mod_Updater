@@ -6,19 +6,19 @@ from utils.regex import regex
 from utils.logger import log
 
 class Succ():
-	def __init__(self, base_folder, mod_target):
+	def	__init__(self, base_folder, mod_target):
 		self.mod_target = mod_target
 		self.path_manifest = self.find_mod_folder(base_folder)
 		if self.path_manifest != None:
 			self.get_succ_infos()
 
-	def get_infos(self, regex, string):
+	def	get_infos(self, regex, string):
 		try:
 			return (regex.findall(string)[0])
 		except IndexError:
 			return (None)
 
-	def get_succ_infos(self):
+	def	get_succ_infos(self):
 		with open(self.path_manifest, "r") as tmp_file:
 			readed_str = tmp_file.read()
 		self.man_id = self.get_infos(regex.succ_id, readed_str)
@@ -33,7 +33,7 @@ class Succ():
 		log.info(self.man_version, 3)
 		log.info(self.man_priority, 3)
 
-	def find_mod_folder(self, base_folder):
+	def	find_mod_folder(self, base_folder):
 		self.already_viewed = []
 		while True:
 			found = self.search_for_succ_file(base_folder)
@@ -61,7 +61,7 @@ class Succ():
 			else:
 				self.already_viewed.append(found)
 
-	def search_for_succ_file(self, base_folder):
+	def	search_for_succ_file(self, base_folder):
 		for root, dirs, files in os.walk(base_folder):
 			for file in files:
 				if file == "manifest.succ":

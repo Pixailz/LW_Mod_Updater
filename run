@@ -16,10 +16,10 @@ from utils.logger import log
 from utils.regex import regex
 
 class Modz():
-	def __init__(self, modz_folder, **modz):
+	def	__init__(self, modz_folder, **modz):
 		self.init_data_struct(modz_folder, modz)
 
-	def init_data_struct(self, modz_folder, modz):
+	def	init_data_struct(self, modz_folder, modz):
 		self.repo = { key: {} for key in modz }
 		for repo_name in self.repo:
 			branch = modz[repo_name]["repo"][0]
@@ -37,7 +37,7 @@ class Modz():
 					mods["dir_dst"] = f"{modz_folder}/{modz_git.dev_name}_{mod_id}"
 					mods["dir_src"] = os.path.dirname(mods["Succ"].path_manifest)
 
-	def install(self):
+	def	install(self):
 		for repo_name in self.repo:
 			tmp_repo = self.repo[repo_name]
 			for mod_id in tmp_repo["Modz"]:
