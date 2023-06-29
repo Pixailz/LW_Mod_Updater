@@ -39,9 +39,15 @@ class ModzGit():
 			headers["Authorization"] = f"Bearer {GIT_TOKEN}"
 		req = requests.get(url=url, headers=headers)
 		if req.status_code != 200:
-			req_status = f"{log.R}{req.status_code}{log.RST}"
-			log.error(f"Error fetching latest commit [{req_status}]")
-			log.error(f"-> [{url}]")
+			if req.status_code == 401 and GIT_TOKEN != None:
+				req_status = f"{log.R}{req.status_code}{log.RST}"
+				log.error(f"Error fetching latest commit [{req_status}] (Token Expired)")
+				log.error(f"exiting..")
+				exit(1)
+			else:
+				req_status = f"{log.R}{req.status_code}{log.RST}"
+				log.error(f"Error fetching latest commit [{req_status}]")
+				log.error(f"-> [{url}]")
 			return (None)
 		return (req.text)
 
