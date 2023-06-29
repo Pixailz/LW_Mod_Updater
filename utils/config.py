@@ -15,12 +15,15 @@ MODZ = {
 		),
 		"modz": [
 			"HarmonyForLogicWorld",			# mandatory for gui thing
-			"EccsWindowHelper",				#
 			"AssemblyLoader",				#
+			"EccsGuiBuilder",				#
+			"EccsLogicWorldAPI",			#
 
 			"WireTracer",					# extra
 			"CustomWirePlacer",				#
+			"RandomDebugCollection",		#
 			"DisableCollision",				#
+
 			"EcconiaCPUServerComponents",	# extra ++
 			"EcconiasChaosClientMod",		#
 		]
