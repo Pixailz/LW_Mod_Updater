@@ -47,7 +47,7 @@ namespace ModUpdater.Client
 			{
 				if(file.Path.StartsWith("repo/"))
 				{
-					// NOT WORKING
+					// NOT WORKINGs
 					LConsole.WriteLine("repo found: " + file.Path);
 				}
 			}
