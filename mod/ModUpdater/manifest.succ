@@ -1,0 +1,8 @@
+ID: Pixailz.ModUpdater
+Name: Mod Updater
+Author: Pixailz
+Version: 0.0.1
+Priority: 1
+ClientOnly: true
+Dependencies:
+    - MHG

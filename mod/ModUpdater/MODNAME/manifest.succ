@@ -1,8 +1,0 @@
-ID: ModUpdater
-Name: ModUpdater
-Author: Pixailz
-Version: 0.0.1
-Priority: 1
-ClientOnly: false
-Dependencies:
-	- MHG == 0.91.1
