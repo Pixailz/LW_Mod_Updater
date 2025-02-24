@@ -7,3 +7,6 @@ __pycache__
 
 # token_git.py
 token_git*
+
+# Cached Logic World folder
+utils/FOUNDED_MODZ_FOLDER
