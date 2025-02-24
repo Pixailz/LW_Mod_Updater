@@ -26,7 +26,7 @@ class Modz():
 			url = modz[repo_name]["repo"][1]
 			modz_git = self.repo[repo_name]["ModzGit"] = ModzGit(url, branch)
 			self.repo[repo_name]["Modz"] = {}
-			log.info(f"Searching manifest.succ file for mods in {modz_git.cache_dir}", 1)
+			log.info(f"Searching manifest.(succ|jecs) file for mods in {modz_git.cache_dir}", 1)
 			for mod_id in modz[repo_name]["modz"]:
 				mods = self.repo[repo_name]["Modz"][mod_id] = {}
 				mods["Succ"] = Succ(modz_git.cache_dir, mod_id)

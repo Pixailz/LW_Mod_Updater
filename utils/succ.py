@@ -2,6 +2,8 @@
 
 import os
 
+from utils.config import RENAME_SUCC_2_JECS
+
 from utils.regex import regex
 from utils.logger import log
 
@@ -9,7 +11,14 @@ class Succ():
 	def	__init__(self, base_folder, mod_target):
 		self.mod_target = mod_target
 		self.path_manifest = self.find_mod_folder(base_folder)
+
 		if self.path_manifest != None:
+			if RENAME_SUCC_2_JECS:
+				if self.path_manifest.endswith(".succ"):
+					self.path_manifest = self.path_manifest.replace(".succ", ".jecs")
+				self.rename_succ_2_jecs(os.path.abspath(
+					os.path.join(self.path_manifest, os.pardir)
+				))
 			self.get_succ_infos()
 
 	def	get_infos(self, regex, string):
@@ -64,15 +73,27 @@ class Succ():
 	def	search_for_succ_file(self, base_folder):
 		for root, dirs, files in os.walk(base_folder):
 			for file in files:
-				if file == "manifest.succ":
+				if file == "manifest.succ" or file == "manifest.jecs":
 					tmp_path = os.path.join(root, file)
 					if tmp_path in self.already_viewed:
 						continue
-					return(tmp_path)
+					return tmp_path
 			for dir in dirs:
 				if dir == ".git":
 					continue
 				tmp_file = self.search_for_succ_file(os.path.join(base_folder, dir))
 				if tmp_file == None:
 					continue
-				return (tmp_file)
+				return tmp_file
+
+	def rename_succ_2_jecs(self, base_folder):
+		for root, dirs, files in os.walk(base_folder):
+			for file in files:
+				if file.endswith(".succ"):
+					file = os.path.abspath(os.path.join(root,file))
+					log.success(f"renaming {file} to JECS", 2)
+					os.rename(file, file.replace(".succ", ".jecs"))
+			for dir in dirs:
+				if dir == ".git":
+					continue
+				self.rename_succ_2_jecs(os.path.join(base_folder, dir))

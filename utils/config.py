@@ -75,6 +75,9 @@ MODZ = {
 }
 # where the cache are stored
 GIT_CACH_DIR = ".cache"
+# Rename or not succ to jecs files
+RENAME_SUCC_2_JECS = True
+
 # LOG
 ## padding for the level
 LOG_PAD_STR = "   "
