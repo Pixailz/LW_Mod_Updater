@@ -2,19 +2,39 @@
 
 import os
 
-def find_folder(folder, root="/"):
-	TO_AVOID = [
-		"$WINDOWS.~BT",
-		"$Recycle.Bin"
-		"dev",
-		"tmp",
-		"run"
-		"var"
-	]
+def get_nt_drives():
+	drives = [f"{l}:\\" for l in 'CDEFGHIJKLMNOPQRSTUVWXYZ']
+	for drive in drives:
+		if os.path.isdir(drive):
+			NT_DRIVES.append(drive)
+
+NT_DRIVES = []
+
+if os.name == "nt":
+	get_nt_drives()
+
+FIND_AVOID_NT = [
+	"$WINDOWS.~BT",
+	"$Recycle.Bin",
+]
+
+FIND_AVOID_POSIX = [
+	*FIND_AVOID_NT,	# WSL Stuff
+	"dev",
+	"tmp",
+	"run",
+	"var",
+	"proc"
+]
+
+
+def _find_folder(folder, root=os.sep, to_avoid=[]):
+	if root in to_avoid:
+		return None
 
 	try:
 		for path, dirs, files in os.walk(root, topdown=True):
-			dirs[:] = [d for d in dirs if d not in TO_AVOID]
+			dirs[:] = [d for d in dirs if d not in to_avoid]
 
 			if folder in [ os.path.basename(d) for d in dirs ]:
 				return os.path.join(path, folder)
@@ -22,6 +42,18 @@ def find_folder(folder, root="/"):
 	except PermissionError as e:
 		print(e)
 	return None
+
+def	find_folder_nt(folder, root=os.sep, to_avoid=FIND_AVOID_NT):
+	for drive in NT_DRIVES:
+		retv = _find_folder(folder, drive, to_avoid)
+		if retv != None:
+			return retv
+
+def find_folder(folder, root=os.sep):
+	if os.name == "nt":
+		return find_folder_nt(folder, root)
+	elif os.name == "posix":
+		return _find_folder(folder, root, FIND_AVOID_POSIX)
 
 MODZ_FOLDER_PATH = os.path.abspath(
 	os.path.join(__file__, os.pardir, "FOUNDED_MODZ_FOLDER")
@@ -40,7 +72,7 @@ else:
 	with open(MODZ_FOLDER_PATH, "w") as f:
 		f.write(MODZ_FOLDER)
 
-MODZ_FOLDER += "GameData"
+MODZ_FOLDER = os.path.join(MODZ_FOLDER, "GameData")
 
 MODZ = {
 	"Ecconia's Main repo": {	# repo_name
