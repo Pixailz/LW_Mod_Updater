@@ -3,7 +3,7 @@ Update mod from a repo
 
 ## HowTo
 
-- The `Modz` class in the [updatz](./updatz) file, take two parameters
+- The `Modz` class in the [run](./run) file, take two parameters
    1. `modz_folder`: the path where to install `modz`
    2. `modz`: a mod list:
 - The `modz` dict is formated as the default [config.py](./config.py) file
@@ -12,7 +12,7 @@ Update mod from a repo
       1. the branch, if not provided, defaulting to `master`
       2. the link of the repo, mandatory
     - list of `modz`
-      - each target is tried to be found in the `manifest.succ`, where:
+      - each target is tried to be found in the `manifest.(succ|jecs)`, where:
       - `target` == `Name` THEN, `target` == `id`
 - The `Modz` file clone the repo link into `.cache/repo_dev_name` if it's not found,
 otherwise update if needed
@@ -46,15 +46,6 @@ modz = {
 }
 ```
 
-## USED LIBS
+by default the script will rename all `.succ` file into `.jecs` file
 
-```py
-import git
-import os
-import re
-import requests
-import shutils
-```
-
-# TODO
-1. implement it in C#
+used libs in [requirement.txt](./requirement.txt)
